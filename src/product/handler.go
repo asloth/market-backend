@@ -24,6 +24,41 @@ func HandlerProducts(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusOK).JSON(list)
 
 	}
-	list, _ := GetProducts()
+
+	list, err := GetProducts()
+
+	if err != nil {
+		c.Status(fiber.ErrConflict.Code).JSON("Error while fetching the data")
+	}
+
 	return c.Status(fiber.StatusOK).JSON(list)
+}
+
+func HandleSearchProducts(c *fiber.Ctx) error {
+	payload := struct {
+		Name       string `json:"name"`
+		IdCategory uint64 `json:"category"`
+	}{}
+
+	if err := c.BodyParser(&payload); err != nil {
+		c.Status(fiber.ErrBadRequest.Code).JSON("Params dont admited")
+	}
+
+	if payload.IdCategory == 0 {
+
+		list, err := GetByName(payload.Name)
+		if err != nil {
+			c.Status(fiber.ErrConflict.Code).JSON("Error while fetching the data")
+		}
+
+		return c.Status(fiber.StatusOK).JSON(list)
+	}
+
+	list, err := GetByNameAndCategory(payload.Name, payload.IdCategory)
+	if err != nil {
+		c.Status(fiber.ErrConflict.Code).JSON("Error while fetching the data")
+	}
+
+	return c.Status(fiber.StatusOK).JSON(list)
+
 }

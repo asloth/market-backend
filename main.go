@@ -29,5 +29,7 @@ func main() {
 
 	app.Get("/products/:category?", product.HandlerProducts)
 
+	app.Post("/products/search", product.HandleSearchProducts)
+
 	app.Listen(":3000")
 }

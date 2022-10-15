@@ -33,18 +33,20 @@ func GetByCategory(idCategory uint64) (*[]Product, error) {
 	return &listProduct, result.Error
 }
 
-func GetByName(category string) (*[]Product, error) {
+func GetByName(name string) (*[]Product, error) {
 
-	var listProducts []Product
-	p := Product{
-		Id:        1,
-		Name:      "categoriiis",
-		Url_image: "sdda",
-		Price:     90.9,
-		Discount:  12,
-		Category:  2,
-	}
-	listProducts = append(listProducts, p)
+	var listProduct []Product
 
-	return &listProducts, nil
+	result := database.Handler.Db.Table("product").Find(&listProduct, "name like ?", "%"+name+"%")
+
+	return &listProduct, result.Error
+}
+
+func GetByNameAndCategory(name string, idCategory uint64) (*[]Product, error) {
+
+	var listProduct []Product
+
+	result := database.Handler.Db.Table("product").Find(&listProduct, "name like ? AND category = ?", "%"+name+"%", idCategory)
+
+	return &listProduct, result.Error
 }
