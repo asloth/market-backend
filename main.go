@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/asloth/market-backend/database"
 	"github.com/asloth/market-backend/src/product"
 	"github.com/gofiber/fiber/v2"
@@ -31,5 +33,10 @@ func main() {
 
 	app.Post("/products/search", product.HandleSearchProducts)
 
-	app.Listen(":3000")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = ":3000"
+	}
+
+	app.Listen(port)
 }
