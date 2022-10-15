@@ -11,8 +11,8 @@ type Product struct {
 	Name      string
 	Url_image string
 	Price     float64
-	Discount  uint
-	Category  uint
+	Discount  uint64
+	Category  uint64
 }
 
 func GetProducts() (*[]Product, error) {
@@ -25,22 +25,16 @@ func GetProducts() (*[]Product, error) {
 	return &listProduct, result.Error
 }
 
-func GetByName(name string) (*[]Product, error) {
-	var listProducts []Product
-	p := Product{
-		Id:        1,
-		Name:      "por nombre",
-		Url_image: "sdda",
-		Price:     90.9,
-		Discount:  12,
-		Category:  2,
-	}
-	listProducts = append(listProducts, p)
+func GetByCategory(idCategory uint64) (*[]Product, error) {
+	var listProduct []Product
 
-	return &listProducts, nil
+	result := database.Handler.Db.Table("product").Find(&listProduct, Product{Category: idCategory})
+
+	return &listProduct, result.Error
 }
 
-func GetByCategory(category string) (*[]Product, error) {
+func GetByName(category string) (*[]Product, error) {
+
 	var listProducts []Product
 	p := Product{
 		Id:        1,

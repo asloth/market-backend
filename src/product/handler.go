@@ -1,7 +1,7 @@
 package product
 
 import (
-	"fmt"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -9,10 +9,17 @@ import (
 func HandlerProducts(c *fiber.Ctx) error {
 
 	if c.Params("category") != "" {
-		list, err := GetByCategory(c.Params("category"))
+
+		idCategory, err := strconv.ParseUint(c.Params("category"), 10, 32)
 
 		if err != nil {
-			fmt.Println(err.Error())
+			c.Status(fiber.ErrBadRequest.Code).JSON("Params dont admited")
+		}
+
+		list, err := GetByCategory(idCategory)
+
+		if err != nil {
+			c.Status(fiber.ErrConflict.Code).JSON("Error while fetching the data")
 		}
 		return c.Status(fiber.StatusOK).JSON(list)
 
