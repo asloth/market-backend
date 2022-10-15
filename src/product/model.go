@@ -1,5 +1,11 @@
 package product
 
+import (
+	"fmt"
+
+	"github.com/asloth/market-backend/database"
+)
+
 type Product struct {
 	Id        uint `gorm:"primaryKey"`
 	Name      string
@@ -10,18 +16,13 @@ type Product struct {
 }
 
 func GetProducts() (*[]Product, error) {
-	var listProducts []Product
-	p := Product{
-		Id:        1,
-		Name:      "todos los productos",
-		Url_image: "sdda",
-		Price:     90.9,
-		Discount:  12,
-		Category:  2,
-	}
-	listProducts = append(listProducts, p)
+	var listProduct []Product
 
-	return &listProducts, nil
+	result := database.Handler.Db.Table("product").Find(&listProduct)
+
+	fmt.Println(listProduct)
+
+	return &listProduct, result.Error
 }
 
 func GetByName(name string) (*[]Product, error) {
