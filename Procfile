@@ -1,1 +1,1 @@
-web: market-backend
+web: go run .
