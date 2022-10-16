@@ -13,7 +13,8 @@ import (
 
 func main() {
 	// refer https://github.com/go-sql-driver/mysql#dsn-data-source-name for details
-	dsn := "bsale_test:bsale_test@tcp(mdb-test.c6vunyturrl6.us-west-1.rds.amazonaws.com)/bsale_test?charset=utf8mb4&parseTime=True&loc=Local"
+
+	dsn := "bsale_test:bsale_test@tcp(mdb-test.c6vunyturrl6.us-west-1.rds.amazonaws.com)/bsale_test"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
