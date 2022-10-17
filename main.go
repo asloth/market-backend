@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/asloth/market-backend/database"
+	"github.com/asloth/market-backend/src/category"
 	"github.com/asloth/market-backend/src/product"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -33,6 +34,8 @@ func main() {
 	app.Get("/products/:category?", product.HandlerProducts)
 
 	app.Post("/products/search", product.HandleSearchProducts)
+
+	app.Get("/categories", category.HandlerCategories)
 
 	port := os.Getenv("PORT")
 	if port == "" {
